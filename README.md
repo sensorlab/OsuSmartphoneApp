@@ -1,0 +1,2 @@
+# OsuSmartphoneApp
+PhoneGap
