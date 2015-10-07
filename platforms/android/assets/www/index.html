@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SensorPush</title>
+  <meta charset="utf-8" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="app.min.css">
+  <link rel="stylesheet" href="css/metricsgraphics.css">
+  <style>
+  /* TODO */
+  .app-topbar {
+    background-color: #009688;
+    text-align: center;
+    box-shadow: 1px 1px 8px 1px #00695C;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    color: white;
+    margin-bottom: 2%;
+    display: flex; /*ensures the page title is centered*/
+  }
+
+  .card-container {
+    margin-top: 4%;
+    margin-left: 5%;
+  }
+
+  .card {
+    display: inline-block;
+    width: 45%;
+    padding-top: 29%;
+    padding-bottom: 28%;
+    font-size: 150%;
+  }
+
+  #configuration {
+    background-color: #004C44;
+    color: white;
+    font-family: sans-serif;
+    box-shadow: 1px 1px 4px 1px #004C44;
+  }
+
+  #sensors {
+    background-color: #069948;
+    color:white;
+    box-shadow: 1px 1px 4px 1px #069948;
+    margin-left: 4%;
+  }
+  #graphs {
+    background-color: #009989;
+    color: white;
+    box-shadow: 1px 1px 4px 1px #009989;
+    margin-top: 4%;
+  }
+  #exit {
+    background-color: #00665B;
+    color: white;
+    box-shadow: 1px 1px 4px 1px #00665B;
+    margin-left: 4%;
+  }
+
+  img {
+    width: 110px;
+  }
+
+  #samplingrange {
+    width: 100%;
+  }
+
+
+  /*Fancy zoom-in transition for the app-dialog*/
+  .app-dialog {
+    -webkit-transform: translate3d(0px,0px,0px);
+    transform: scale(.1,.1);
+  }
+
+  .app-android-5 .app-dialog-container.enabled .app-dialog {
+    -webkit-transform: translate3d(0px,0px,0px);
+    transition: transform .6s linear;
+  }
+
+
+  .shadow {
+    -webkit-filter: drop-shadow( -5px -5px 5px #00665B );
+    filter: drop-shadow( -5px -5px 5px #00665B ); /* Same syntax as box-shadow */
+
+    width: 325%;
+    position: absolute;
+    right: 10%;
+    top: 5%;
+  }
+
+  label {
+    font-size: 150%;
+  }
+
+  input[type=checkbox] {
+    transform: scale(4);
+    float: right;
+    margin-top: 17%;
+    margin-right: 3%;
+  }
+  #sensorname {
+    font-size: 16px;
+    float: left;
+  }
+
+  /*Larger fonts in teal buttons*/
+  .app-button.teal {
+    font-size: 20px;
+  }
+
+  /*Various label font size adjustments*/
+  #rangelabel, #connectlabel, #inputslabel, #outputslabel{
+    font-size: 16px;
+  }
+
+  #rangelabel {
+    font-size: 50px;
+    font-weight: 100;
+    font-style: oblique;
+    height: 90px;
+    text-align: center;
+    padding-top: 5%;
+    text-transform: lowercase;
+  }
+
+  #ip {
+    font-size: 30px;
+    font-weight: 100;
+    font-style: oblique;
+    height: 90px;
+    text-align: center;
+    padding-top: 5%;
+    color: teal;
+  }
+
+  #samplingrange {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 2.2%;
+    transform: scale(2);
+  }
+
+  /*Prevent background from changing for triangle button*/
+  #dropdownbtn.active {
+    background-color: #009688;
+    /*-webkit-animation: flash .1s infinite;*/
+  }
+
+  /*Generic hidden class*/
+  .hidden {
+    display: none;
+  }
+  </style>
+</head>
+
+<body>
+  <script type="text/javascript" src="cordova.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+  <script type="text/javascript" src="PushNotification.js"></script>
+  <script type="text/javascript" src="js/d3.min.js"></script>
+  <script type="text/javascript" src="js/metricsgraphics.min.js"></script>
+  <script type="text/javascript">
+  app.initialize();
+  </script>
+
+  <div class="app-page" data-page="home">
+    <div class="app-topbar">
+      <div class="app-title">Sensor app</div>
+      <div class="app-button right" id="dropdownbtn" data-target="connect">
+        <img src="img/playIcon.svg" class="shadow"/>
+      </div>
+    </div>
+    <div class="app-content" id="testcontent">
+      <div class = "card-container">
+        <div class="app-button card" id="configuration" data-target="configure">
+          <img src="img/configIcon.svg" id="cardIcon"/>
+          <div class="cardTxt">Configuration</div>
+        </div>
+        <div class="app-button card" id="sensors" data-target="sensors">
+          <img src="img/sensorsIcon.svg" class="cardIcon"/>
+          <div class="cardTxt">Sensors</div>
+        </div>
+        <div class="app-button card" id="graphs" data-target="graphs">
+          <img src="img/graphIcon.svg" class="cardIcon"/>
+          <div class="cardTxt">Graphs</div>
+        </div>
+        <div class="app-button card" id="exit">
+          <img src="img/exitIcon.svg" class="cardIcon"/>
+          <div class="cardTxt">Exit</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-page" data-page="configure">
+      <div class="app-topbar">
+        <div class="app-button left" data-back data-autotitle></div>
+        <div class="app-title">Configure</div>
+      </div>
+      <div class="app-content">
+        <div class="app-section">
+          <ul class="app-list"><label id="rangelabel"></label></ul>
+          <input type="range" id="samplingrange" name="period" min="500" max="10000" step="10">
+          <div class="app-button teal" id="samplingbtn">Set sampling period</div>
+        </div>
+        <div class="app-section">
+          <input class="app-input" id="ip" placeholder="Server IP address">
+          <div class="app-button teal" id="ipbtn">Set IP address / hostname</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-page" data-page="sensors">
+      <div class="app-topbar">
+        <div class="app-button left" data-back data-autotitle></div>
+        <div class="app-title">Sensors</div>
+        <div class="app-button right" id="applybtn">Apply</div>
+      </div>
+      <div class="app-content">
+        <div class="app-section" >
+          <ul class="app-list">
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-page" data-page="connect">
+      <div class="app-topbar">
+        <div class="app-button left" data-back data-autotitle></div>
+        <div class="app-title">Connect to nodeRED</div>
+      </div>
+      <div class="app-content">
+        <div class="app-section">
+          <ul class="app-list">
+            <label id="connectlabel">Online:</label>
+          </ul>
+          <div class="app-button teal" id="connectbtn">Sync Registration ID</div>
+        </div>
+        <div class="app-section">
+          <div class="app-button teal" id="watchbtn">Press to start/stop recording</div>
+        </div>
+        <div class="app-section">
+          <div class="app-button teal" id="tagbtn">Add NFC Listener</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-page" data-page="graphs">
+      <div class="app-topbar">
+        <div class="app-button left" data-back data-autotitle></div>
+        <div class="app-title">Graphs</div>
+        <div class="app-button right" id="clearbtn">Clear all</div>
+      </div>
+      <div class="app-content">
+        <div class="graphscontainer">
+          <ul class="app-list"><label id="outputslabel">Outputs</label></ul>
+        </div>
+        <div class="redcontainer">
+          <ul class="app-list"><label id="inputslabel">Inputs</label></ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="zepto.js"></script>
+    <script src="app.min.js"></script>
+    <script>
+    App.controller('home', function (page) {
+      $(page).find('#exit').on('click', function () {
+        App.dialog({
+          title        : 'Quit',
+          text         : 'Are you sure you want to exit?',
+          cancelButton : 'Cancel',
+          okButton     : 'Exit'
+        }, function (Exit) {
+          if (Exit) {
+            navigator.app.exitApp();
+          }
+        });
+      });
+    });
+    App.controller('configure', function (page) {
+      this.transition = 'rotate-left';
+      var rangelabelholder = $(page).find('#rangelabel');
+      rangelabelholder.text(app.options.frequency+' ms');
+      var samplingholder = $(page).find('#samplingrange');
+      samplingholder.value = app.options.frequency;
+      var ipholder = $(page).find('#ip');
+      ipholder.val(app.options.ip);
+      $(page).find('#samplingbtn').on('click', function () {
+        sampleval=samplingholder.val();
+        app.options.frequency=sampleval;
+        rangelabelholder.text(app.options.frequency+' ms');
+      });
+      $(page).find('#ipbtn').on('click', function () {
+        var ipval=$(page).find("#ip").val();
+        if(ipval!="")
+        app.options.ip = ipval;
+        else {
+          window.plugins.toast.showShortBottom('Empty!');
+        }
+      });
+      samplingholder.on('input', function () {
+        rangelabelholder.text(samplingholder.val()+' ms');
+      });
+    });
+    App.controller('connect', function (page) {
+      this.transition = 'slide-down';
+      if(navigator.connection.type != 'none')
+      app.options.connected = true;
+      else {
+        app.options.connected = false;
+      }
+
+      $(page).find('#connectlabel').text('Online: '+app.options.connected);
+      $(page).find('#watchbtn').text('Sampling: '+app.options.watching);
+      $(page).find('#connectbtn').on('click', function () {
+        app.nodered.post(app.options.regid);
+      });
+      $(page).find('#watchbtn').on('click', function () {
+        //Here be dragons
+        if(app.options.watching === false) {
+          for(var property in app)
+          //find sensor objects
+          if(app[property].hasOwnProperty('watchID') &&
+          app.sensorsToWatch.indexOf(app[property].type) > -1)
+          app[property].startWatch();
+
+          app.options.watching = true;
+          $(page).find('#watchbtn').text('Sampling: '+app.options.watching);
+        }
+        else {
+          for(var property in app)
+          //find sensor objects
+          if(app[property].hasOwnProperty('watchID') && app[property].watchID != "")
+          app[property].stopWatch();
+
+          app.options.watching = false;
+          $(page).find('#watchbtn').text('Sampling: '+app.options.watching);
+        }
+      });
+      $(page).find('#tagbtn').on('click', function () {
+        console.log("Tagbtn was clicked!");
+        if(app.options.taglistening === false) {
+          nfc.addTagDiscoveredListener(app.tagbtncallback,
+            app.genericSuccessHandler,app.genericErrorHandler);
+            app.options.taglistening = true;
+            $('#tagbtn').text("Remove NFC Listener");
+          }
+          else {
+            nfc.removeTagDiscoveredListener(app.tagbtncallback);
+            app.options.taglistening = false;
+            $('#tagbtn').text("Add NFC Listener");
+          }
+        });
+      });
+      App.controller('graphs', function (page) {
+        var contentDOM = $(page).find('.graphscontainer');
+        var noSensorData = true;
+
+        for(var property in app)
+        //find sensor objects
+        if(app[property].hasOwnProperty('watchID') &&
+        app[property].hasOwnProperty('data') &&
+        app[property].data.length > 0)
+         {
+          noSensorData = false;
+          //Make a section for each sensor to watch, for graphing
+          contentDOM.append("<div class='app-section' id='"+app[property].target+"'></div>");
+          var sensorObject = app[property];
+          //draw the graph if there is data
+          //setTimeout to ensure the DOM is loaded
+          setTimeout(function() {
+            app.drawGraph(sensorObject);
+          },100);
+        };
+
+        var redDOM = $(page).find('.redcontainer');
+        var noRedData = true;
+        for(var data_array in app.nodered.data)
+        if(app.nodered.data[data_array].length > 0) {
+          noRedData = false;
+          //Make a section for data from nodeRED
+          redDOM.append("<div class='app-section' id='"+data_array+"'></div>");
+          //draw all red graphs
+          setTimeout(function() {
+            app.nodered.drawGraphs();
+          },100);
+        };
+
+        if(noSensorData === true && noRedData === true){
+          window.plugins.toast.showLongCenter('No data available yet!');
+        }
+
+        $(page).find('#clearbtn').on('click', function(){
+          //Empty stored sensor and nodered data
+          for(var property in app)
+          //find all data arrays
+          if(app[property].hasOwnProperty('data'))
+          while(app[property].data.length > 0)
+          app[property].data.pop();
+        });
+      });
+
+      </script>
+    </body>
+    </html>

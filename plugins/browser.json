@@ -1,0 +1,42 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "com.phonegap.plugins.PushPlugin": {
+            "PACKAGE_NAME": "com.pushapp"
+        },
+        "cordova-plugin-device-motion": {
+            "PACKAGE_NAME": "com.pushapp"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.pushapp"
+        },
+        "nl.x-services.plugins.toast": {
+            "PACKAGE_NAME": "com.pushapp"
+        },
+        "com.example.hello": {
+            "PACKAGE_NAME": "com.pushapp"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "org.awokenwell.proximity": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-device-orientation": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-plugin-crosswalk-webview": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "com.chariotsolutions.nfc.plugin": {
+            "PACKAGE_NAME": "io.cordova.hellocordova"
+        }
+    },
+    "dependent_plugins": {}
+}
