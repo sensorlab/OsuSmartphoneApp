@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.pushapp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.ijs.eOsu" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
     <feature name="PushPlugin">
         <param name="android-package" value="com.plugin.gcm.PushPlugin" />
@@ -35,13 +35,11 @@
         <param name="onload" value="true" />
     </feature>
     <allow-intent href="market:*" />
-    <name>SensorPush</name>
+    <name>e-osu</name>
     <description>
-        Sensor, graphing and notification pushing application that can operate with nodeRED
+        Sensor, graphing and notification pushing application that can operate with VIDEK IoT platform and NodeRED.
     </description>
-    <author email="razvan_on@yahoo.com">
-        Razvan Onica
-    </author>
+    <author email="sensorlab@ijs.si">SensorLab</author>
     <content src="index.html" />
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />

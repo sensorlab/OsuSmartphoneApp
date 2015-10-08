@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.pushapp;
+package com.ijs.eOsu;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
