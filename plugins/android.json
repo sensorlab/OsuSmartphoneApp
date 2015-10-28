@@ -7,9 +7,23 @@
         "files": {
             "res/xml/config.xml": {
                 "parents": {
+                    "/widget": [
+                        {
+                            "xml": "<feature name=\"NfcPlugin\"><param name=\"android-package\" value=\"com.chariotsolutions.nfc.plugin.NfcPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        }
+                    ],
                     "/*": [
                         {
+                            "xml": "<feature name=\"Hello\"><param name=\"android-package\" value=\"com.example.plugin.Hello\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"PushPlugin\"><param name=\"android-package\" value=\"com.plugin.gcm.PushPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"webView\" value=\"org.crosswalk.engine.XWalkWebViewEngine\" />",
                             "count": 1
                         },
                         {
@@ -21,6 +35,14 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"Compass\"><param name=\"android-package\" value=\"org.apache.cordova.deviceorientation.CompassListener\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
@@ -29,29 +51,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Hello\"><param name=\"android-package\" value=\"com.example.plugin.Hello\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
+                            "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /></feature>",
                             "count": 1
                         },
                         {
                             "xml": "<feature name=\"Proximity\"><param name=\"android-package\" value=\"org.awokenwell.proximity.ProximitySensorListener\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"Compass\"><param name=\"android-package\" value=\"org.apache.cordova.deviceorientation.CompassListener\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<preference name=\"webView\" value=\"org.crosswalk.engine.XWalkWebViewEngine\" />",
-                            "count": 1
-                        }
-                    ],
-                    "/widget": [
-                        {
-                            "xml": "<feature name=\"NfcPlugin\"><param name=\"android-package\" value=\"com.chariotsolutions.nfc.plugin.NfcPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -60,6 +64,14 @@
             "AndroidManifest.xml": {
                 "parents": {
                     "/manifest": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.NFC\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.nfc\" android:required=\"false\" />",
+                            "count": 1
+                        },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
                             "count": 1
@@ -81,19 +93,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<permission android:name=\"com.pushapp.permission.C2D_MESSAGE\" android:protectionLevel=\"signature\" />",
+                            "xml": "<permission android:name=\"com.ijs.eOsu.permission.C2D_MESSAGE\" android:protectionLevel=\"signature\" />",
                             "count": 1
                         },
                         {
-                            "xml": "<uses-permission android:name=\"com.pushapp.permission.C2D_MESSAGE\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.NFC\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-feature android:name=\"android.hardware.nfc\" android:required=\"false\" />",
+                            "xml": "<uses-permission android:name=\"com.ijs.eOsu.permission.C2D_MESSAGE\" />",
                             "count": 1
                         }
                     ],
@@ -103,7 +107,7 @@
                             "count": 1
                         },
                         {
-                            "xml": "<receiver android:name=\"com.plugin.gcm.CordovaGCMBroadcastReceiver\" android:permission=\"com.google.android.c2dm.permission.SEND\"><intent-filter><action android:name=\"com.google.android.c2dm.intent.RECEIVE\" /><action android:name=\"com.google.android.c2dm.intent.REGISTRATION\" /><category android:name=\"com.pushapp\" /></intent-filter></receiver>",
+                            "xml": "<receiver android:name=\"com.plugin.gcm.CordovaGCMBroadcastReceiver\" android:permission=\"com.google.android.c2dm.permission.SEND\"><intent-filter><action android:name=\"com.google.android.c2dm.intent.RECEIVE\" /><action android:name=\"com.google.android.c2dm.intent.REGISTRATION\" /><category android:name=\"com.ijs.eOsu\" /></intent-filter></receiver>",
                             "count": 1
                         },
                         {
@@ -113,15 +117,15 @@
                     ],
                     "/*": [
                         {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
-                            "count": 1
-                        },
-                        {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
                             "count": 1
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
                             "count": 1
                         }
                     ]
@@ -130,35 +134,38 @@
         }
     },
     "installed_plugins": {
-        "com.phonegap.plugins.PushPlugin": {
-            "PACKAGE_NAME": "com.pushapp"
-        },
-        "cordova-plugin-device-motion": {
-            "PACKAGE_NAME": "com.pushapp"
-        },
-        "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.pushapp"
-        },
-        "nl.x-services.plugins.toast": {
-            "PACKAGE_NAME": "com.pushapp"
+        "com.chariotsolutions.nfc.plugin": {
+            "PACKAGE_NAME": "com.ijs.eOsu"
         },
         "com.example.hello": {
-            "PACKAGE_NAME": "com.pushapp"
+            "PACKAGE_NAME": "com.ijs.eOsu"
         },
-        "cordova-plugin-network-information": {
-            "PACKAGE_NAME": "com.pushapp"
-        },
-        "org.awokenwell.proximity": {
-            "PACKAGE_NAME": "com.pushapp"
-        },
-        "cordova-plugin-device-orientation": {
-            "PACKAGE_NAME": "com.pushapp"
+        "com.phonegap.plugins.PushPlugin": {
+            "PACKAGE_NAME": "com.ijs.eOsu"
         },
         "cordova-plugin-crosswalk-webview": {
-            "PACKAGE_NAME": "com.pushapp"
+            "PACKAGE_NAME": "com.ijs.eOsu"
         },
-        "com.chariotsolutions.nfc.plugin": {
-            "PACKAGE_NAME": "com.pushapp"
+        "cordova-plugin-device-motion": {
+            "PACKAGE_NAME": "com.ijs.eOsu"
+        },
+        "cordova-plugin-device-orientation": {
+            "PACKAGE_NAME": "com.ijs.eOsu"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "com.ijs.eOsu"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.ijs.eOsu"
+        },
+        "nl.x-services.plugins.toast": {
+            "PACKAGE_NAME": "com.ijs.eOsu"
+        },
+        "org.apache.cordova.splashscreen": {
+            "PACKAGE_NAME": "com.ijs.eOsu"
+        },
+        "org.awokenwell.proximity": {
+            "PACKAGE_NAME": "com.ijs.eOsu"
         }
     },
     "dependent_plugins": {}
